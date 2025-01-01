@@ -30,7 +30,7 @@ A continuación vamos a contar el hardware que se ha usado para el montaje del P
   ## Sonars 
   Para nuestro piero se han escogido dos sensores ultrasonidos US-016 , el cual cuanta con 5 pines: Vcc (alimentación 5V),
   Range (alimentacion 3V), Out (salida analógica) y Gnd (conectada a tierra).
-  ![](![image](https://github.com/user-attachments/assets/c5cc2bf4-af3b-4ca8-bf87-d0f26b45caae)
+  ![](https://github.com/user-attachments/assets/c5cc2bf4-af3b-4ca8-bf87-d0f26b45caae)
 
   
    
