@@ -21,4 +21,16 @@ A continuación vamos a contar el hardware que se ha usado para el montaje del P
 
   ### Puertos de Arduino Mega 2560
   ![Pines Arduino Mega 2560 Rev3](https://lab.bricogeek.com/assets/10/Pinout-Mega2560rev3_latest.png)
+
+  ## Alimenación de circuitos 
+  Para alimentar todo el sistema del Piero vamos a utilizar una fuente de tensión de 15 V y para ello usaremos tres pilas de
+  3.6 V en serie. Para conocer la carga de la bateria usada vamos añadir un multimetro para ver por un display la tensión de 
+  la bateria y un medidor de tensión que irá conectado al Arduino.
+
+  ## Sonars 
+  Para nuestro piero se han escogido dos sensores ultrasonidos US-016 , el cual cuanta con 5 pines: Vcc (alimentación 5V),
+  Range (alimentacion 3V), Out (salida analógica) y Gnd (conectada a tierra).
+  ![](![image](https://github.com/user-attachments/assets/c5cc2bf4-af3b-4ca8-bf87-d0f26b45caae)
+
+  
    
