@@ -38,6 +38,18 @@ A continuación vamos a contar el hardware que se ha usado para el montaje del P
   como el de los motores.
   (![](https://github.com/user-attachments/assets/e8439ba3-9fba-4890-902f-90ffcea61b91)
 
+  ## Led
+  Ahora mostraremos la conexion del led RGB usado en el Piero: 
+  ![](https://github.com/user-attachments/assets/d6dd5988-c9a2-416b-8084-4a7be0a593ac)
+
+  
+
+  # Arduino en Simulink 
+  Para realizar la programación del Piero se crearan distinos subsistemas de simulink para simular el hardware.   
+  Se usará la libreria *"Simulink Support Package for Arduino Hardware"*.
+
+  
+
 
   
    
