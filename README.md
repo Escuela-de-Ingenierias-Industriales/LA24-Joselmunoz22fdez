@@ -48,7 +48,21 @@ Para generar el subsitema necesario para los sonars se ha seguido los iguintes p
 Para poder realizar las pruebas vamos a crear un nuevo modelo en simulink al que llamaremos "Test_Sensores" y en este con el uso de de Subsystem reference podremos cargar el subsistema creado y vemos los datos de salida mediante un display.
 ![image](https://github.com/user-attachments/assets/ec701d87-a5e1-4efb-98e5-6fc43a455795)
 
-  
+## Motores
+En el control de los motores vamos a utilizar los siguintes bloques de simulink:
+- PWM:Se usará para indicar la potencia que se le suministrará al motor y así poder realizar un control de la velocidad del Piero. Los valores van desde el valor más bajo 0 a 255 más alto.
+- Digital Output: Vamos a usar un puerto adicionalmente que nor permitirá activar el motor o no. Para los motores usado en nuestro Piero no disponemos de dicho control enable.
+- Saturation : Permite que la señal quedé limitada entre un rango de valores limitantes. Si los valor es superior a alguno de los limites, el bloque devuelve el valor del limite idnicado.
+
+  Comenzamos generando un subssistema de referencia que permita controlar los motores hacia adelante o hacia atras. Para ello cada uno de los motores es contorlado por 3 pines, 2 pines de pwm asociados a los desplazamiento hacia adelante o hacia atras y otro asociado al enable. Para los desplazamientos hacia atras lo indicaremos con valores negativos (0 y -255). Como el bloque PWM de simulink no lee valores negativos usaremos un bloque abs ( valor absoluto ) para los valores negativos.
+
+  En el control del enable, usaremos un compare to constant para indicar por el puerto enable cuando el valor es diferente a 0 y asi poder activar el motor.
+
+  Como entrada, el bloque dispondrá de una señal con dos valores, uno para cada motor y usaremos un multiplexor y asi podremos separar ambas señales para gestionar el control de los motores.
+
+  ![](https://github.com/user-attachments/assets/68ba5336-f18f-4230-a404-aa528eef001f)
+
+
 
 
   
