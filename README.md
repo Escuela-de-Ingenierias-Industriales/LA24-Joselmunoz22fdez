@@ -142,7 +142,6 @@ Si realizamos una simulación donde asignamos unas velociades lineal  y angular 
 
 ## Control por orientación
 Al no poseer ninguna realimentación, tendremos los mismos fallos que un sistema en bucle abierto por lo que el Piero no podrá realizar una orientación  y por ende no podrá seguir la trayectoria deseada, deberemos realizar un blucle realimentado para el ángulo de rotación theta.
-![image](https://github.com/user-attachments/assets/384b6d1f-b483-424e-b8ed-c23d7f21832b)
 
 ## Control de Trayectorias 
   Para poder implementar las diferentes trayectorias y que nuestro Piero sea capaz de seguirlas, se modificarán las consignas de entradas que serán más complejas ya que estas varian su valor según convenga. Para nuestro caso marcaremos una trayectoria para salir de calse.
@@ -156,4 +155,27 @@ Al no poseer ninguna realimentación, tendremos los mismos fallos que un sistema
 
 Para ello podremos hacerlo usamos distintas generamos diferentes señalesque simulan las velocidades lineales y angulares con un signal builder.
 ![image](https://github.com/user-attachments/assets/aa4411f9-396a-46b4-b6dd-377e9d658215)
+
+## Diagramas de estado 
+Otra manera en la que podemos realizar la trayectoria es mediante un diagrama de estados, los cuales aporta mejor visibilidad de la trayectoria  y mejor manejo intuitivo del Piero. Este diagrama d estado la podemos realizar mediante "Stateflow", mediante el bloque Chart. Según la posición en la que nos encontremosm el Piero tomará una acción u otra.
+![image](https://github.com/user-attachments/assets/06ca7c1e-10f5-4f93-986f-6b232f185c50)
+Siendo el sistema igual a: 
+![image](https://github.com/user-attachments/assets/c428f9e8-5b26-4a09-992c-cbe95a5cc97c)
+
+#Mfunction
+El bloque que vamos a usar es el Mfuction, el cual se trata de un bloque especifico de Simulink, en el cual podemos escibir una función de Matlab. Esta función va a atener como salida la velocidad, el ángulo tehta. PAra poder calcular esta salida, es necesario tener el camino a seguir (waypoints), la posición (x e y) y una variable i, que indique que waypoint. 
+![image](https://github.com/user-attachments/assets/6f3e58c8-ad86-459d-92a8-5e7bc89ce5de)
+
+La función tiene el siguiente funcionamiento:
+ - Definimos las variables de velocidad y angulo inicial, el índice i y una distancia L (que determinará como de cerca debe estar nuestro robot de un waypoint para pasar al siguiente).
+ - Comprobamos que todavía nos quedan waypoints por recorrer, si la respuesta es afirmativa, calculamos la distancia entre nuestra posición actual y nuestro siguiente punto.
+ - Si la distancia es menor que L y sigue habiendo waypoints, nos pasamos al siguiente waypoint, y volvemos a calcular la distancia y el ángulo entre la posición actual y el siguiente waypoint y ponemos una velocidad linear de 0.205 para que el robot se desplace al siguiente waypoint. Cuando esta condicion se deje de cumplir y cambiemos de waypoint al que dirigirnos, se calculará el ángulo entre la posición actual y el siguiente punto al que tenemos que desplazarnos.
+ - Si no quedan waypoints por recorrer, se ponen ambas velocidades a 0, ya que hemos llegado al destino.
+ - Finalmente comprobamos si el indice i es menor al número de waypoints que tenemos, es caso de ser así, el indice il de la salida será el valor de i-1, ya que hemos recorrido un waypoint más. Pero si i es mayor, significa que todavía no hemos pasado un waypoint, por lo que i=il
+
+ - ## Aceleración limitada con evitación de obstáculos
+Finalmente, si queremos añadir a nuestro Piero una navegacón reactiva, es decir, que esquive obstaculos, añadiremos al modelo SalirClaseWaypointsPP un Diagrama de estados que se encarge de esquivar los obstáculos. La lógica de control es fácil, si se detecta algún objeto, el switch hará que se cambie de modo navegación a modo reactivo. Cuando se haya esquivado el objeto, se seguirá con la trayectoria normal volviendo a ir al waypoint al que inicialmente ibamos a ir antes de detectar el obstáculo.
+
+El diagrama de estados tendrá como estado incial la no detección de obstaculos, la cual mandará un 0 como señal de control y por lo tanto, el comportamiento reactivo estará desactivado. En cuanto detecte algún obstaculo por la izquierda, se irá al estado *"ObstaculoIzq"*, en donde se procede a girar a la derecha. Cada tres segndos se comprueba si ya se ha esquivado o no dicho obstáculo, si además de detectarlo por la izquierda lo detecta por la derecha tambien, quiere decir que el obstáculo está de frente, por lo que habrá que girar más. Si se detecta por la derecha, el razonamiento es el mismo, salvo que esta vez estaremos en el estado *"ObstaculoDcha"* y el giro se hará a la izquierda.
+
 
