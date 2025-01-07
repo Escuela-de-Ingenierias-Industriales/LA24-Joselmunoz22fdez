@@ -97,7 +97,63 @@ Siendo el sistema de estudio:
 
 ![](https://github.com/user-attachments/assets/765387e0-368b-424d-9ece-8e540c6e783d)
 
+#Ident 
+Con los datos que se han obtenido que se han obtenido de la simulación frente a la entrada escalon, podemos obtener la función de trasnferencia que imiten al comportamiento de nuestro Piero especificamente. Para poder obtener dicha función se puede usar la herramienta de Matlab *"System Identification"*,donde cargaremos tantos los datos que se han obtenido de la rueda izquierda como la de la derecha. UNa vez cargado los datos que nos interes,con las señales se procederá a cear las funciones dedeadas. 
 
+De estos datos sacaremos diversas funciones, variaremos el número de polos y de ceros y escogeremos la función que más se acerque al comportamiento deseados. 
+![](https://github.com/user-attachments/assets/698f8849-bcfb-433a-ab78-7e3e117e3a2a)
 
-  
-   
+Escogida la funcion que queremos generaremos un subsistema que nos permitirá realizar simulaciones del robot. Este subsistema lo denominaremos Piero Model que contendrádos Discrete Trnasfer Fcn, las cuales incorporaremos los datos de las funciones obtenidas anteriormente.
+![image](https://github.com/user-attachments/assets/3fa5b6d4-f526-4724-88db-59010a912d6d)
+
+Para facilitar el desarrollo del Piero y poder realizar tanto simulaciones como poder probar el hardware, crearemos un subsistema, el cual simula a nuestro Piero en ambos casos "Piero.slx". Para que esto se realize de manera automática usaremos el bloque "Variant Source", el cual tiene dos entradas, y según si estamos en simulación o en hardware, selecciona el bloque pertinente.
+![image](https://github.com/user-attachments/assets/03443706-8221-41da-b312-ecef15992557)
+
+## Control Bucle Cerrado 
+Para realizar un control ante perturbaciones, realizaremos un control mediante Bucle cerrado. Para ello, creamos un subsistema "Control_BC". Este contará con controladores PID (uno para cada motor) a la salida de estos se encontrará el subsistema de referencia Piero el cual se encuentra en realimentación con la entrada de los controladores. De esta manera podremos realizar un control para los motores del Piero. 
+
+Para el diseño de los controladores, usaremos el PID tuning implementado en Matlab y buscamos un comportamiento deseado.
+![image](https://github.com/user-attachments/assets/0dceda79-dd31-466c-a49c-77484b866345)
+
+Siendo el subsistema:
+![image](https://github.com/user-attachments/assets/8744ac42-0d49-4114-8799-817631a7c143)
+
+# Cinemática y Control de Orientación
+## Cinemática 
+Siguinedo con el estudio del comportamiento del Piero, estudiaremos la cinemática diferencial, esto nos permitirá entender como se mueve el robot y como varían las velocidades y orientaciones según la consigna de control en dicho instante. Para ver como se despalza por espacio, consideraremos este como un espacio de dos dimensiones (Plano XY) 
+
+A este modelo cinemático directo le deberemos indicar las velocidades articulares (de cada una de las ruedas) y obtendremos las velocidades cartesianas (Velocidad lineal y Velocidad angular). Para obtener estos valores utilizaremos la cinemática directa. En este bloque tendremos una matriz que lleve el calculo de las operaciones necesarias para pasar de velocidades articulares a cartesianas . 
+
+![image](https://github.com/user-attachments/assets/80c7bdbe-3bce-4baf-9efb-feff00555beb)
+
+El modelo cinématico inverso realizará la funcion contraria a la descrita antes. A unas velocidades cartesianas devuelve sus correspondiente velocidades articulares. También generaremos otro bloque que encargue de realizar estos calcilos. El mismo proceso que antes hemos hecho. 
+
+![image](https://github.com/user-attachments/assets/b28fb2e6-5f4d-46d9-87c3-bac5466a6d1c)
+
+Unicamnete ya nos queda obtener la odometría y así conocer la posición dle robot en un plano xy. Para conocer la estimación de la posición y la orientación usaremos las velocidades cartesianas. Pimero debemos serparar ambas velocidades en las dos direcciones Vx y Vy usando senos y cosenos. Tras esto podemos integrar las velocidades y obtenemos la posición x e y y el ángulo theta. Finalmente las magnitudes se pondrán represetar en un gráfico Xy. 
+![image](https://github.com/user-attachments/assets/3543c2c4-6486-4737-b51d-27f191debad0)
+
+Una vez hemos creado todos los subsistemas pertinentes, podemos proceder a crear un modelo para ver el comportamiento del sistema. En el la consigna de entrada será una velocidad linear y una angular, por lo que deberemos aplicar el MCI para pasarlo a velocidades articulares y que nuestro Piero pueda leerlas y realizar los movmientos pertinentes. Tras esto se aplicará el MCD con el fín ed volver a obtener velocidades cartesianas y poedr tanto ver la salida más clara como poder representar correctamente el movimiento en el XY graph.
+![image](https://github.com/user-attachments/assets/a90cfdf3-773e-48e0-92e1-923074d2f326)
+
+Si realizamos una simulación donde asignamos unas velociades lineal  y angular podemos ver el siguinte comportamiento.
+
+![image](https://github.com/user-attachments/assets/29acfe74-c835-4794-b80e-d50fd0d2681e)
+
+## Control por orientación
+Al no poseer ninguna realimentación, tendremos los mismos fallos que un sistema en bucle abierto por lo que el Piero no podrá realizar una orientación  y por ende no podrá seguir la trayectoria deseada, deberemos realizar un blucle realimentado para el ángulo de rotación theta.
+![image](https://github.com/user-attachments/assets/384b6d1f-b483-424e-b8ed-c23d7f21832b)
+
+## Control de Trayectorias 
+  Para poder implementar las diferentes trayectorias y que nuestro Piero sea capaz de seguirlas, se modificarán las consignas de entradas que serán más complejas ya que estas varian su valor según convenga. Para nuestro caso marcaremos una trayectoria para salir de calse.
+1. 4 metros en línea recta
+2. Giro antihorario 90º
+3. 12 metros en línea recta
+4. Giro horario 90º
+5. 0.8 metros en línea recta
+6. Giro antihorario 90º
+7. 2 metros en linea recta
+
+Para ello podremos hacerlo usamos distintas generamos diferentes señalesque simulan las velocidades lineales y angulares con un signal builder.
+![image](https://github.com/user-attachments/assets/aa4411f9-396a-46b4-b6dd-377e9d658215)
+
