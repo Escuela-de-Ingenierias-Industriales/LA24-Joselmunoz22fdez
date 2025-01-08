@@ -182,4 +182,27 @@ Siendo el esquema del bloque final
 ![image](https://github.com/user-attachments/assets/a1c14f50-99cc-4335-ac52-1e6c1022e594)
 
 
+## Piero Final 
+  Como idea personal y como esquema final, se ha realizado un proyecto de Piero basado en un bus de comuniaciones para destacar una serie de de ventajas:
+- Esquema más ordenado e intuitivo: Ya que nos permite separar en diferentes sistemas generales tales como Sensores, logica de Control, Salidas.
+- Lineas de comunicaciones General:  Con un canal bus podemos implentar de mánera más comoda nuevas funciones ya que todos los bloques tienen acceso a toda la información referente al Piero. Lo que simplifica mucho la generación de canales entre los diferentes sistemas del Piero.
+Auqnue posee una serie desventajas:
+- Cada vez que añdae una funcionabilidad hay que marcar denominar las señales pertinentes en el bus para que puedan usarse.
+- Realizar subsistemas de refencias especificos para administración de cada dato y realizar una lógica para las simulación. 
+![image](https://github.com/user-attachments/assets/ae582d70-2981-43d3-82ec-998f8002204d)
+
+En el primero bloque se encuentran los subsistemas de refencia refentes a los sesores, uno para cada tipo de sensor.
+![image](https://github.com/user-attachments/assets/0080d379-8012-4eea-a6f1-b77d69f4e84a)
+
+En el segundo bloque podemos encontrar la logica de control del Led que indica tanto la detección de obstaculos, como el estado de la bateria.
+![image](https://github.com/user-attachments/assets/554263c3-3e61-4eb1-98aa-a53c976ec014)
+
+El tercero correponde con la lógica de control del Piero y su logica reactiva:
+![image](https://github.com/user-attachments/assets/49e2c834-b694-4f0a-a82d-a32f67b5020d)
+
+Y el último bloque correponde con la salidas del sistema:
+![image](https://github.com/user-attachments/assets/58c372b5-121a-4542-8291-4a733f3e297e)
+
+
+
 
