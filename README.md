@@ -169,13 +169,17 @@ El bloque que vamos a usar es el Mfuction, el cual se trata de un bloque especif
 La función tiene el siguiente funcionamiento:
  - Definimos las variables de velocidad y angulo inicial, el índice i y una distancia L (que determinará como de cerca debe estar nuestro robot de un waypoint para pasar al siguiente).
  - Comprobamos que todavía nos quedan waypoints por recorrer, si la respuesta es afirmativa, calculamos la distancia entre nuestra posición actual y nuestro siguiente punto.
- - Si la distancia es menor que L y sigue habiendo waypoints, nos pasamos al siguiente waypoint, y volvemos a calcular la distancia y el ángulo entre la posición actual y el siguiente waypoint y ponemos una velocidad linear de 0.205 para que el robot se desplace al siguiente waypoint. Cuando esta condicion se deje de cumplir y cambiemos de waypoint al que dirigirnos, se calculará el ángulo entre la posición actual y el siguiente punto al que tenemos que desplazarnos.
+ - Si la distancia es menor que L y sigue habiendo waypoints, nos pasamos al siguiente waypoint, y volvemos a calcular la distancia y el ángulo entre la posición actual y el siguiente waypoint y ponemos una velocidad linear de 0.30 para que el robot se desplace al siguiente waypoint. Cuando esta condicion se deje de cumplir y cambiemos de waypoint al que dirigirnos, se calculará el ángulo entre la posición actual y el siguiente punto al que tenemos que desplazarnos.
  - Si no quedan waypoints por recorrer, se ponen ambas velocidades a 0, ya que hemos llegado al destino.
  - Finalmente comprobamos si el indice i es menor al número de waypoints que tenemos, es caso de ser así, el indice il de la salida será el valor de i-1, ya que hemos recorrido un waypoint más. Pero si i es mayor, significa que todavía no hemos pasado un waypoint, por lo que i=il
 
  - ## Aceleración limitada con evitación de obstáculos
-Finalmente, si queremos añadir a nuestro Piero una navegacón reactiva, es decir, que esquive obstaculos, añadiremos al modelo SalirClaseWaypointsPP un Diagrama de estados que se encarge de esquivar los obstáculos. La lógica de control es fácil, si se detecta algún objeto, el switch hará que se cambie de modo navegación a modo reactivo. Cuando se haya esquivado el objeto, se seguirá con la trayectoria normal volviendo a ir al waypoint al que inicialmente ibamos a ir antes de detectar el obstáculo.
+Finalmente, si queremos añadir a nuestro Piero una navegacón reactiva, es decir, que esquive obstaculos, añadiremos al sistema un Diagrama de estados que se encarge de esquivar los obstáculos. La lógica de control es fácil, si se detecta algún objeto, el switch hará que se cambie de modo navegación a modo reactivo. Cuando se haya esquivado el objeto, se seguirá con la trayectoria normal volviendo a ir al waypoint al que inicialmente ibamos a ir antes de detectar el obstáculo.
 
 El diagrama de estados tendrá como estado incial la no detección de obstaculos, la cual mandará un 0 como señal de control y por lo tanto, el comportamiento reactivo estará desactivado. En cuanto detecte algún obstaculo por la izquierda, se irá al estado *"ObstaculoIzq"*, en donde se procede a girar a la derecha. Cada tres segndos se comprueba si ya se ha esquivado o no dicho obstáculo, si además de detectarlo por la izquierda lo detecta por la derecha tambien, quiere decir que el obstáculo está de frente, por lo que habrá que girar más. Si se detecta por la derecha, el razonamiento es el mismo, salvo que esta vez estaremos en el estado *"ObstaculoDcha"* y el giro se hará a la izquierda.
+![image](https://github.com/user-attachments/assets/cafa66ef-3efb-455b-821f-72fe8318783b)
+Siendo el esquema del bloque final 
+![image](https://github.com/user-attachments/assets/a1c14f50-99cc-4335-ac52-1e6c1022e594)
+
 
 
