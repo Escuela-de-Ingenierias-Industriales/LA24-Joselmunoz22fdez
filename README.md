@@ -203,6 +203,14 @@ El tercero correponde con la lógica de control del Piero y su logica reactiva:
 Y el último bloque correponde con la salidas del sistema:
 ![image](https://github.com/user-attachments/assets/58c372b5-121a-4542-8291-4a733f3e297e)
 
+# Video de funcionamiento
+Para el video de funcionamiento se ha implementado una trayectoria dentro de una casa, ya que no se ha podido probar en la clase deseada. Para probarlo dentro de la casa se han modificado varios valores como la distancia minima de giro, ya que se trata de un espacio bastante estrecho. Por lo que ha bajado la distancia a 8 cm ( es muy poca distancia ) por lo que no se puede chocar por la falta de tiempo de reacción. 
+https://youtu.be/AjjuVp8O6FA
 
+#Problemas detectados en el proyecto final
+Comenzamos con un fallo evidente que podemos observar es la implementación de sensores de ultasonido:
+- Unicamente poseemos dos sensores que tiene un rango limitado de detección por tanto posee angulos ciegos y no puede detectar objetos en ciertas posiciones, concretos objetos frontales de poca volumen.
+- Escaso número, al solo poseer dos sensores, obtenmos muy poca informacaion del espacio. Por lo que la implemnetación de mas sensores que darán más información del entorno 
 
+  
 
